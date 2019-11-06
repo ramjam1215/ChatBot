@@ -15,16 +15,18 @@ export class ChatService {
 
   readonly token = environment.dialogflow.angularBot;
   readonly client = new ApiAiClient({ accessToken: this.token });
-
+  private chatCheck = false;
   conversation = new BehaviorSubject<Message[]>([]);
 
   constructor() { }
 
   // Sends and receives messages via DialogFlow
   converse(msg: string) {
+    //send
     const userMessage = new Message(msg, 'user');
     this.update(userMessage);
 
+    //receive
     return this.client.textRequest(msg)
       .then(res => {
         const speech = res.result.fulfillment.speech;
@@ -33,7 +35,11 @@ export class ChatService {
       });
   }
 
+  enableExit(b: boolean): void { this.chatCheck = b; }
 
+  toChat(): boolean {
+    return this.chatCheck;
+  }
 
   // Adds message to source
   update(msg: Message) {

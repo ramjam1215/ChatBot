@@ -5,7 +5,14 @@
   </div>
 
   <div *ngIf="toRoute()">
-    <a class="jc" [routerLink]="['/chat']">chatBot</a>
+
+    <div *ngIf="!didLogin()">
+      <a (click)="toChat()" class="jc" [routerLink]="['/chat']">chatBot</a>
+    </div>
+    
+    <div *ngIf="didLogin()">
+      <a (click)="logOut()" class="jc" [routerLink]="['/login']">Logout</a>
+    </div>
   </div>
 
 </div>

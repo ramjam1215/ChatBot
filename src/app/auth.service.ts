@@ -4,20 +4,22 @@ import * as firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { reject } from 'q';
 import { Router } from '@angular/router';
+import { ChatService } from './chat/chat.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  guard = false;
-  constructor(private afAuth: AngularFireAuth, private router: Router) { }
+  private bCheck = false;
+  constructor(private afAuth: AngularFireAuth, private router: Router, private chatService: ChatService) { }
 
   login(userInfo: User) {
     this.afAuth.auth.
       signInWithEmailAndPassword(userInfo.email, userInfo.password)
       .then(res => {
         console.log('Successfully signed in!');
-        this.guard = true;
+        this.bCheck = true;
+        
       })
       .catch(err => {
         console.log('Somethings is wrong...');
@@ -26,9 +28,22 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return this.guard;
+    return this.bCheck;
   }
 
+  logOut() {
+    this.afAuth.auth.signOut()
+      .then(res => {
+        console.log('sign out successfull!');
+        this.bCheck = false;
+        this.chatService.enableExit(false);
+    })
+      .catch(err => {
+        console.log('Somethings is wrong...');
+        console.log(err);
+    });
+  }
+  /*
   logout() {
     return new Promise((resolve, reject) => {
       if (firebase.auth().currentUser) {
@@ -39,6 +54,7 @@ export class AuthService {
         reject();
       }
     })
-  }
 
+  }
+  */
 }

@@ -30,7 +30,7 @@ export class ChatDialogComponent implements OnInit {
   }
 
   logOut() {
-    this.authService.logout();
+    this.authService.logOut();
     this.router.navigateByUrl('/login');
   }
 
