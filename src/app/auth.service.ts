@@ -10,17 +10,19 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   guard = false;
-  constructor(public afAuth: AngularFireAuth, private router: Router) { }
+  constructor(private afAuth: AngularFireAuth, private router: Router) { }
 
   login(userInfo: User) {
-    return new Promise<any>((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(userInfo.email, userInfo.password)
-        .then(res => {
-          this.guard = true;
-          console.log('sign in was good?');
-          resolve(res);
-        }, err => reject(err))
-    })
+    this.afAuth.auth.
+      signInWithEmailAndPassword(userInfo.email, userInfo.password)
+      .then(res => {
+        console.log('Successfully signed in!');
+        this.guard = true;
+      })
+      .catch(err => {
+        console.log('Somethings is wrong...');
+        console.log(err);
+      });
   }
 
   isLoggedIn(): boolean {

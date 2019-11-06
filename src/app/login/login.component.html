@@ -4,7 +4,9 @@
 </h1>
 <div class="login">
   <h2 class="login-header">Log in</h2>
-  <!-- use [formGroup] & loginForm, from component, instead of ngForm.
+  <!--
+    Reactive:
+      use [formGroup] & loginForm, from component, instead of ngForm.
       which creates its own FormGroup-->
   <form [formGroup]="loginForm" class="login-container" (ngSubmit)="login()">
 

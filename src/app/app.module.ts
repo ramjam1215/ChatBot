@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
+//import { AppRoutingModule } from './app-routing.module';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { ChatModule } from './chat/chat.module';
@@ -15,29 +15,30 @@ import { AuthGuardService } from './auth-guard.service';
 
 
 const appRoutes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  //{ path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', component: LoginComponent },
   { path: 'chat', component: ChatDialogComponent, canActivate: [AuthGuardService] },
+  //{ path: 'chat', component: ChatDialogComponent },
   { path: '**', component: LoginComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     ChatModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule,
+    //AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, 
     AngularFireAuthModule,
     RouterModule.forRoot(appRoutes, { enableTracing: true })
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
